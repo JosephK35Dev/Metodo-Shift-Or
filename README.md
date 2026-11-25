@@ -19,6 +19,7 @@ Aplicación web interactiva que explica, paso a paso y con lenguaje sencillo, el
 ## Ejecución
  
 No necesita instalación ni servidor: descarga o clona el repositorio y abre `index.html` con doble clic en un navegador moderno.
+También disponible de forma web con Github Pages: https://josephk35dev.github.io/Metodo-Shift-Or/
  
 Pruebas del algoritmo (opcional, requiere Node.js):
  
