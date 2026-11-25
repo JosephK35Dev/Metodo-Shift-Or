@@ -1,42 +1,76 @@
+/* ===== Paleta blanco y rojo ===== */
 :root{--bg:#ffffff;--card:#ffffff;--ink:#231a1c;--mut:#5f5154;--pri:#c8102e;--priBg:#fde8ea;--cur:#7f1d1d;--curBg:#fecaca;--ok:#231a1c;--okBg:#f1eeee;--line:#e3d3d5;--zero:#fde8ea;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-.wrap{max-width:980px;margin:0 auto;padding:20px 16px 48px}
-h1{font-size:clamp(1.6rem,4vw,2.3rem);margin:.2em 0 .1em;line-height:1.2}
-h2{font-size:1.3rem;margin:.2em 0 .5em}h3{font-size:1.05rem;margin:.8em 0 .3em}h4{margin:.9em 0 .2em;font-size:.95rem;color:var(--pri)}
-.sub{color:var(--mut);margin:0 0 18px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:14px 0}
-nav{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
-nav button{flex:1 1 150px}
+.wrap{max-width:1200px;margin:0 auto;padding:12px 16px 24px}
+h1{font-size:clamp(1.3rem,3.2vw,1.8rem);margin:0;line-height:1.2}
+h2{font-size:1.25rem;margin:.2em 0 .5em}h3{font-size:1.05rem;margin:.8em 0 .3em}h4{margin:.9em 0 .2em;font-size:.95rem;color:var(--pri)}
+.note{color:var(--mut);font-size:.9rem;margin:8px 0 0}
+:focus-visible{outline:3px solid var(--cur);outline-offset:2px}
+
+/* ===== Encabezado compacto ===== */
+.top{display:flex;align-items:center;gap:14px;padding:8px 0 12px;border-bottom:4px solid var(--pri)}
+.logo{height:60px;width:auto;max-width:25%;object-fit:contain}
+.top p{margin:0}.uni{color:var(--pri);font-weight:700;text-transform:uppercase;letter-spacing:.02em;font-size:.9rem}
+.author{color:var(--mut);font-size:.85rem}
+
+/* ===== Etapas ===== */
+nav{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+nav button{flex:1 1 140px;font-size:.95rem}
+
+/* ===== Tarjetas y botones ===== */
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:0 0 14px}
 button,select,input{font:inherit;color:var(--ink)}
 button{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:9px 14px;cursor:pointer;min-height:44px}
 button:hover:not(:disabled){border-color:var(--pri)}button:disabled{opacity:.45;cursor:not-allowed}
 button.pri,nav button[aria-current="step"]{background:var(--pri);border-color:var(--pri);color:#fff}
-:focus-visible{outline:3px solid var(--cur);outline-offset:2px}
 input,select{background:var(--card);border:2px solid var(--line);border-radius:10px;padding:8px 10px;min-height:44px;width:100%}
-.ctrl{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.ctrl label{display:flex;align-items:center;gap:8px;color:var(--mut);margin-left:auto}
-.ctrl input[type=range]{width:130px;min-height:auto;padding:0}
-.free{display:grid;grid-template-columns:1fr 2fr 110px;gap:12px}
+
+/* ===== Distribución: simulador al centro, guía al lado ===== */
+.layout{display:grid;gap:14px;grid-template-columns:minmax(0,1fr)}
+.sim{min-width:0}
+.guide{font-size:.98rem;margin:0}
+.guide h2{color:var(--pri)}
+@media (min-width:1000px){
+ .layout{grid-template-columns:minmax(0,1fr) 330px;align-items:start}
+ .sim{grid-column:1;grid-row:1}
+ .guide{grid-column:2;grid-row:1;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}
+}
+
+/* ===== Controles (grandes y claros) ===== */
+.controls{padding:14px 20px}
+.ctrl{display:flex;gap:10px;flex-wrap:wrap}
+.ctrl button{flex:1 1 130px;min-height:54px;font-size:1.05rem;font-weight:600}
+.free{display:grid;grid-template-columns:1fr 2fr;gap:12px}
 .free label{display:block;font-weight:600;font-size:.9rem}
 @media (max-width:640px){.free{grid-template-columns:1fr}}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chips button{min-height:36px;padding:4px 12px;font-size:.9rem}
-.strip{display:flex;gap:4px;flex-wrap:wrap;margin:6px 0}
-.ch{min-width:38px;text-align:center;border:2px solid var(--line);border-radius:8px;padding:2px 4px;position:relative;font:700 1.15rem ui-monospace,Menlo,Consolas,monospace;transition:background .25s,transform .25s}
-.ch small{display:block;font:400 .65rem system-ui;color:var(--mut)}
+
+/* ===== Texto y patrón (lo más importante: tamaño grande) ===== */
+.strip{display:flex;gap:6px;flex-wrap:wrap;margin:22px 0 8px}
+.ch{min-width:54px;text-align:center;border:2px solid var(--line);border-radius:10px;padding:4px 6px;position:relative;font:700 1.7rem ui-monospace,Menlo,Consolas,monospace;transition:background .25s,transform .25s}
+.ch small{display:block;font:400 .72rem system-ui;color:var(--mut)}
 .ch.done{opacity:.6}
-.ch.cur{background:var(--curBg);color:var(--cur);border-color:var(--cur);transform:translateY(-3px);opacity:1}
-.ch.cur::before{content:"▼";position:absolute;top:-19px;left:0;right:0;font-size:.8rem}
-.ch.m{border-bottom:5px solid var(--ok);background:var(--okBg)}
+.ch.cur{background:var(--curBg);color:var(--cur);border-color:var(--cur);transform:translateY(-4px);opacity:1}
+.ch.cur::before{content:"▼";position:absolute;top:-22px;left:0;right:0;font-size:.95rem}
+.ch.m{border-bottom:6px solid var(--ok);background:var(--okBg)}
 .ch.mc{outline:3px solid var(--ok)}
-.ch.m::after{content:"✓";position:absolute;bottom:-3px;right:2px;font-size:.6rem;color:var(--ok)}
-.cells{display:flex;gap:8px;flex-wrap:wrap}
-.cell{width:62px;text-align:center;border:2px solid var(--line);border-radius:12px;padding:6px 2px;transition:background .3s}
-.cell b{font:700 1.3rem ui-monospace,Menlo,monospace;display:block}
+.ch.m::after{content:"✓";position:absolute;bottom:-3px;right:3px;font-size:.7rem;color:var(--ok)}
+.cells{display:flex;gap:10px;flex-wrap:wrap}
+.cell{width:88px;text-align:center;border:2px solid var(--line);border-radius:14px;padding:10px 2px;transition:background .3s}
+.cell b{font:700 2rem ui-monospace,Menlo,monospace;display:block}
 .cell.on{background:var(--priBg);border-color:var(--pri);border-style:solid}.cell.off{border-style:dashed;color:var(--mut)}
 .cell.win{background:var(--okBg);border-color:var(--ok);border-width:4px}
-.cell span{font-size:.8rem}
+.cell span{font-size:1.05rem}
+
+/* ===== Explicación y coincidencias ===== */
+.expl{font-size:1.2rem;border-left:6px solid var(--pri);padding-left:16px}
+.found{background:var(--okBg);border-radius:10px;padding:2px 10px;display:inline-block;margin:2px 4px 2px 0}
+.badge{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:0 10px;font-size:.85rem;margin-right:6px}
+.err{border:2px dashed var(--pri);border-radius:12px;padding:16px;text-align:center;color:var(--pri)}
+
+/* ===== Vista de bits (al final del simulador) ===== */
 .bitsbox{overflow-x:auto}
 .brow{display:flex;align-items:center;gap:10px;margin:2px 0;flex-wrap:wrap}
 .lbl{width:270px;font-size:.82rem;color:var(--mut)}
@@ -45,21 +79,118 @@ input,select{background:var(--card);border:2px solid var(--line);border-radius:1
 .bit{font:700 .9rem ui-monospace,Menlo,monospace;width:26px;text-align:center;border-radius:4px;font-style:normal;border:1px solid transparent}
 .bit.zero{background:var(--zero);border-color:var(--pri);color:var(--ink)}.bit.one{color:var(--mut);font-weight:400}.bit.hd{color:var(--ink);font-size:1rem}
 .bit.last{box-shadow:0 0 0 2px var(--cur)}
-.expl{font-size:1.05rem;border-left:6px solid var(--pri);padding-left:14px}
-.empty,.err{border:2px dashed var(--line);border-radius:12px;padding:16px;text-align:center;color:var(--mut)}
-.err{border-color:var(--pri);color:var(--pri)}
-.found{background:var(--okBg);border-radius:10px;padding:2px 10px;display:inline-block;margin:2px 4px 2px 0}
-.badge{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:0 10px;font-size:.85rem;margin-right:6px}
+
+/* ===== Información secundaria plegable ===== */
 dl{margin:0}dt{font-weight:700;margin-top:6px}dd{margin:0 0 4px;color:var(--mut)}
 code{background:var(--priBg);border-radius:5px;padding:0 5px}
+.simple{background:var(--priBg);border-left:5px solid var(--pri);border-radius:8px;padding:8px 12px;margin:-4px 0 16px}
+details.more summary{cursor:pointer;font-weight:700;font-size:1.05rem;min-height:36px;color:var(--pri)}
+details.more[open] summary{margin-bottom:10px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
 .grid>div{border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+
+/* ===== Pie de página ===== */
+.site-footer{background:var(--pri);color:#fff;padding:24px 16px calc(24px + env(safe-area-inset-bottom,0px))}
+.foot-in{max-width:1200px;margin:0 auto}
+.site-footer h2{margin:0 0 10px;font-size:1.1rem;text-transform:uppercase;letter-spacing:.03em}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px 24px}
+.meta dt{margin:0;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;opacity:.85}
+.meta dd{margin:0;color:#fff;font-weight:600}
+.meta .wide{grid-column:1/-1}
+.site-footer a{color:#fff;text-decoration:underline}
+.todo{border-bottom:2px dashed #fff}
+
+@media (max-width:560px){.logo{height:46px}.cell{width:72px}.ch{min-width:46px;font-size:1.5rem}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
-.banner{display:flex;align-items:center;gap:16px;padding:14px 0 14px;border-bottom:4px solid var(--pri);margin-bottom:14px}
-.logo{height:84px;width:auto;max-width:30%;object-fit:contain}
-.banner h2{margin:0;color:var(--pri);font-size:clamp(1.05rem,2.8vw,1.5rem);text-transform:uppercase;letter-spacing:.02em}
-.banner p{margin:2px 0 0;color:var(--ink)}
-.banner .mut{color:var(--mut);font-size:.9rem}
-@media (max-width:560px){.logo{height:60px}}
-.simple{background:var(--priBg);border-left:5px solid var(--pri);border-radius:8px;padding:8px 12px;margin:-4px 0 16px}
+/* Clase que usa ui.js en textos de apoyo */
+.sub{color:var(--mut);font-size:.92rem;margin:0 0 10px}
+
+/* =====================================================================
+   MEJORAS VISUALES: gradientes y efectos glow (misma paleta blanco/rojo)
+   Solo colores, sombras y fondos: no modifica posiciones ni tamaños.
+   ===================================================================== */
+:root{--glow:rgba(200,16,46,.45);--glow-soft:rgba(200,16,46,.14);--grad:linear-gradient(135deg,#a50d26 0%,#c8102e 50%,#e11d48 100%)}
+
+html{background:#fff6f7}
+body{min-height:100vh;background:radial-gradient(900px 420px at 8% -8%,rgba(200,16,46,.13),transparent 62%),radial-gradient(700px 380px at 100% 0%,rgba(225,29,72,.08),transparent 60%),linear-gradient(180deg,#ffffff 0%,#fff6f7 100%)}
+
+/* Encabezado */
+.top{border-bottom:4px solid transparent;border-image:linear-gradient(90deg,#a50d26,#e11d48 55%,rgba(225,29,72,0)) 1}
+.logo{filter:drop-shadow(0 3px 10px var(--glow-soft))}
+.uni,h1{background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;color:var(--pri)}
+.uni{background-image:linear-gradient(90deg,#a50d26,#e11d48)}
+h1{background-image:linear-gradient(90deg,#231a1c 0%,#7f1d1d 45%,#c8102e 100%)}
+
+/* Botones */
+button{transition:box-shadow .25s,border-color .25s,background .25s,transform .15s}
+button:hover:not(:disabled){box-shadow:0 0 0 3px var(--glow-soft),0 6px 16px var(--glow-soft);transform:translateY(-1px)}
+button.pri,nav button[aria-current="step"]{background:var(--grad);border-color:#a50d26;color:#fff;box-shadow:0 6px 20px var(--glow),inset 0 1px 0 rgba(255,255,255,.35)}
+button.pri:hover:not(:disabled){box-shadow:0 0 0 3px var(--glow-soft),0 8px 26px var(--glow)}
+nav button:not([aria-current="step"]){background:linear-gradient(180deg,#fff,#fff4f5)}
+.ctrl button:not(.pri){background:linear-gradient(180deg,#fff,#fdeef0)}
+input,select{background:linear-gradient(180deg,#fff,#fffafa)}
+input:focus,select:focus{border-color:var(--pri);box-shadow:0 0 0 4px var(--glow-soft),0 0 16px var(--glow-soft)}
+
+/* Tarjetas */
+.card{background:linear-gradient(160deg,#ffffff 0%,#fff7f8 100%);border-color:#efd5d9;box-shadow:0 8px 28px -12px var(--glow-soft),0 1px 0 #fff inset}
+.guide{background:linear-gradient(170deg,#fff 0%,#ffeef0 100%);box-shadow:0 10px 32px -12px var(--glow),inset 0 4px 0 var(--pri)}
+.controls{background:linear-gradient(120deg,#fff 0%,#ffeef0 100%)}
+
+/* Texto leído (letra actual con glow, coincidencias oscuras con brillo) */
+.ch{background:linear-gradient(180deg,#fff,#fff5f6)}
+.ch.cur{background:linear-gradient(180deg,#fecaca,#fda4af);box-shadow:0 0 0 3px rgba(200,16,46,.22),0 0 22px var(--glow)}
+.ch.m{background:linear-gradient(180deg,#3a1d22,#7f1d1d);color:#fff;border-color:#7f1d1d;border-bottom-color:#ff8a9a;box-shadow:0 0 14px rgba(127,29,29,.55)}
+.ch.m small,.ch.m::after{color:#ffd9de}
+.ch.mc{outline:3px solid #ff8a9a;box-shadow:0 0 24px var(--glow)}
+.ch.cur::before{color:var(--pri);text-shadow:0 0 8px var(--glow)}
+
+/* Casillas del patrón */
+.cell.off{background:linear-gradient(180deg,#fff,#faf6f6)}
+.cell.on{background:linear-gradient(160deg,#fff 0%,#fdd5da 100%);box-shadow:0 0 0 2px rgba(200,16,46,.18),0 0 18px var(--glow)}
+.cell.win{background:linear-gradient(160deg,#3a1d22,#7f1d1d 60%,#a50d26);color:#fff;border-color:#ff8a9a;box-shadow:0 0 0 3px rgba(255,138,154,.35),0 0 28px var(--glow)}
+
+/* Explicación, coincidencias e indicadores */
+.expl{background:linear-gradient(90deg,#ffe3e7 0%,#fff 70%);box-shadow:-6px 0 22px -8px var(--glow),0 8px 24px -14px var(--glow-soft)}
+.found{background:linear-gradient(90deg,#3a1d22,#7f1d1d);color:#fff;box-shadow:0 0 12px rgba(127,29,29,.4)}
+.badge{background:linear-gradient(180deg,#fff,#fdeef0);border-color:#efc3ca}
+.err{background:linear-gradient(160deg,#fff,#ffeef0);box-shadow:0 0 18px var(--glow-soft)}
+
+/* Bits */
+.bit.zero{background:linear-gradient(180deg,#ffe3e7,#fdc4cc);box-shadow:0 0 8px var(--glow);font-weight:800}
+.bit.last{box-shadow:0 0 0 2px var(--pri),0 0 12px var(--glow)}
+.bit.zero.last{box-shadow:0 0 0 2px var(--pri),0 0 14px var(--glow)}
+
+/* Información secundaria */
+.simple{background:linear-gradient(90deg,#fde0e4,#fff 85%);box-shadow:0 0 16px -6px var(--glow-soft)}
+code{background:linear-gradient(180deg,#fde8ea,#fcd5da)}
+.grid>div{background:linear-gradient(160deg,#fff,#fff1f3);box-shadow:0 4px 14px -8px var(--glow-soft)}
+details.more summary:hover{text-shadow:0 0 10px var(--glow-soft)}
+details.more[open]{box-shadow:0 10px 30px -12px var(--glow)}
+
+/* Pie de página */
+.site-footer{background:linear-gradient(135deg,#7f0a1c 0%,#c8102e 50%,#e11d48 100%);box-shadow:0 -10px 34px -10px var(--glow)}
+.site-footer h2{text-shadow:0 0 14px rgba(255,255,255,.35)}
+
+/* =====================================================================
+   AJUSTE: fondo con más profundidad + nuevo estilo de botones rojos
+   ===================================================================== */
+
+/* Fondo: malla de puntos suave + resplandores rojos + degradado diagonal */
+html{background:#ffe9ec}
+body{background:
+ radial-gradient(rgba(200,16,46,.11) 1.3px,transparent 1.4px) 0 0/26px 26px,
+ radial-gradient(760px 460px at 4% 2%,rgba(200,16,46,.20),transparent 65%),
+ radial-gradient(640px 520px at 100% 30%,rgba(225,29,72,.15),transparent 65%),
+ radial-gradient(700px 500px at 0% 88%,rgba(165,13,38,.13),transparent 65%),
+ linear-gradient(160deg,#ffffff 0%,#fff1f3 45%,#ffe2e7 100%)}
+
+/* ===== Barra superior del simulador: progreso + ejemplos en una sola fila ===== */
+.row2{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px 16px;margin-top:10px}
+.row2 .note{margin:0;font-weight:600}
+.row2 .chips{margin:0}
+.chips button[aria-pressed="true"]{border-color:var(--pri);background:linear-gradient(180deg,#fff,#fdd5da);font-weight:700;box-shadow:0 0 12px var(--glow-soft)}
+.foundrow{margin-top:10px;font-size:1rem}
+
+/* ===== Botón de idioma (esquina superior derecha del encabezado) ===== */
+.langbtn{margin-left:auto;align-self:flex-start;min-height:40px;padding:6px 14px;font-weight:700;white-space:nowrap;border-color:var(--pri);color:var(--pri);background:linear-gradient(180deg,#fff,#ffe3e7);box-shadow:0 4px 14px var(--glow-soft)}

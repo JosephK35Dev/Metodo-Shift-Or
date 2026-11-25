@@ -3,80 +3,94 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Shift-Or: búsqueda aproximada, paso a paso</title>
+<title>Shift-Or</title>
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 <div class="wrap">
-<header>
-<div class="banner">
-<img class="logo" src="img/logo-ufps.png" alt="Logo de la Universidad Francisco de Paula Santander" onerror="this.onerror=function(){this.style.display='none'};this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLYRDeAyduSAIcGYXU8zMh8ydMIRvGXAL5zj9GN-qG_SU9Be1tSneByVo&amp;s=10'">
+
+<!-- 1. ENCABEZADO COMPACTO -->
+<header class="top">
+<img class="logo" src="img/logo-ufps.png" data-i18n-attr="alt:logoAlt" alt="" onerror="this.onerror=function(){this.style.display='none'};this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLYRDeAyduSAIcGYXU8zMh8ydMIRvGXAL5zj9GN-qG_SU9Be1tSneByVo&amp;s=10'">
 <div>
-<h2>Universidad Francisco de Paula Santander</h2>
-<p><b>Joseph Adrian Rubio Rivera</b> · Código 1152520</p>
-<p class="mut">Trabajo: algoritmo Shift-Or para búsqueda aproximada de cadenas · Cúcuta, Norte de Santander</p>
+<p class="uni">Universidad Francisco de Paula Santander</p>
+<h1 data-i18n="h1"></h1>
+<p class="author" data-i18n="author"></p>
 </div>
-</div>
-<h1>🔍 Shift-Or: buscar «algo parecido»</h1>
-<p class="sub">Un recorrido interactivo por el algoritmo que encuentra un patrón en un texto, incluso cuando hay pequeñas diferencias.</p>
+<button id="lang" class="langbtn" type="button"></button>
 </header>
-<nav id="nav" aria-label="Etapas del recorrido"></nav>
-<main>
-<section class="card" id="stage" aria-labelledby="stTitle"></section>
-<section class="card" id="freeBox" hidden aria-label="Datos de la práctica">
+
+<!-- 2. ETAPAS -->
+<nav id="nav" data-i18n-attr="aria-label:navAria"></nav>
+
+<main class="layout">
+
+<!-- Guía de la etapa (a la derecha en escritorio, arriba en móvil). Lo escribe ui.js -->
+<section class="card guide" id="stage" aria-labelledby="stTitle"></section>
+
+<!-- 3. SIMULADOR (lo principal) -->
+<div class="sim">
+
+<section class="card" id="freeBox" hidden data-i18n-attr="aria-label:freeAria">
 <div class="free">
-<div><label for="pat">Patrón a buscar</label><input id="pat" maxlength="24" value="GATO" autocomplete="off" aria-describedby="hint"></div>
-<div><label for="txt">Texto donde buscar</label><input id="txt" maxlength="80" value="EL GAXO ESTÁ AQUÍ" autocomplete="off"></div>
-<div><label for="k">Errores máx.</label><select id="k"><option>0</option><option selected>1</option><option>2</option><option>3</option></select></div>
+<div><label for="pat" data-i18n="lblPat"></label><input id="pat" maxlength="24" value="GATO" autocomplete="off" aria-describedby="hint"></div>
+<div><label for="txt" data-i18n="lblTxt"></label><input id="txt" maxlength="80" value="EL GAXO ESTÁ AQUÍ" autocomplete="off"></div>
 </div>
-<p id="hint" class="sub" style="margin:8px 0 0">Máx. 24 letras en el patrón. Se ignoran mayúsculas y acentos al comparar. Cada error es una sustitución, inserción o eliminación; intercambiar dos letras vecinas cuenta como 2.</p>
-<div class="chips" aria-label="Ejemplos precargados">
-<button data-p="GATO" data-t="EL GAXO ESTÁ AQUÍ" data-k="1">Ejemplo: GATO con 1 error</button>
-<button data-p="CASA" data-t="UNA CASA ROJA Y OTRA CASA" data-k="0">Ejemplo: coincidencia exacta</button>
-<button data-p="CAMINO" data-t="UN CAMNIO LARGO" data-k="2">Ejemplo: letras intercambiadas</button>
-</div>
+<p id="hint" class="note" data-i18n="hint"></p>
 </section>
-<section class="card" aria-label="Controles de la simulación">
-<div class="ctrl" role="group" aria-label="Reproducción">
-<button id="bPrev">◀ Anterior</button>
-<button id="bPlay" class="pri" aria-pressed="false">▶ Reproducir</button>
-<button id="bNext">Siguiente ▶</button>
-<button id="bReset">↺ Reiniciar</button>
-<label>Velocidad <input id="spd" type="range" min="1" max="10" value="4" aria-label="Velocidad de reproducción"></label>
+
+<section class="card controls" data-i18n-attr="aria-label:ctrlAria">
+<div class="ctrl" role="group" data-i18n-attr="aria-label:playAria">
+<button id="bPrev" data-i18n="bPrev"></button>
+<button id="bNext" class="pri" data-i18n="bNext"></button>
+<button id="bPlay" aria-pressed="false"></button>
+<button id="bReset" data-i18n="bReset"></button>
 </div>
-<p id="prog" class="sub" style="margin:8px 0 0"></p>
+<div class="row2"><span id="prog" class="note"></span><div class="chips" id="chips" data-i18n-attr="aria-label:chipsAria"></div></div>
+<!-- Velocidad fija (oculta): ui.js la lee. Para eliminarla del todo, borra también sus 2 usos en ui.js -->
+<input id="spd" type="range" min="1" max="10" value="4" hidden aria-hidden="true" tabindex="-1">
 </section>
+
+<!-- ui.js dibuja aquí: texto y patrón, explicación del paso, coincidencias y bits -->
 <div id="view"></div>
-
-<section class="card">
-<h2>Qué variante se simula y qué límites tiene</h2>
-<p>Es la variante <b>Wu–Manber (Bitap) con convención Shift-Or</b>: en cada nivel <code>d</code> (0 a k errores) hay un número binario de tantos bits como letras tiene el patrón. Un <b>0</b> significa «posible coincidencia»; un <b>1</b>, «descartado». Permite las tres ediciones de la <b>distancia de Levenshtein</b>: <b>sustitución</b> (letra distinta), <b>inserción</b> (letra de más en el texto) y <b>eliminación</b> (letra del patrón que falta en el texto). No permite intercambios de letras como una sola edición.</p>
-<p class="simple"><b>En palabras simples:</b> imagina una fila de lamparitas, una por cada letra del patrón. Una lamparita encendida (0) dice «hasta aquí todo coincide» y una apagada (1) dice «aquí ya no». Los errores permitidos son como vidas extra: el algoritmo no se rinde con la primera letra distinta. Con el patrón GATO, <b>sustitución</b> es GA<u>X</u>O (una letra cambiada), <b>inserción</b> es GA<u>A</u>TO (sobra una letra en el texto) y <b>eliminación</b> es GAO (falta una letra). Un intercambio como GAOT cuenta como <b>2 errores</b>, no como uno.</p>
-<p>Las operaciones mostradas son exactamente las que ejecuta el código. Al leer una letra, para el nivel 0: <code>nuevo₀ = (antes₀ ≪ 1) OR máscara</code>. Para d ≥ 1: <code>nuevo_d = ((antes_d ≪ 1) OR máscara) AND (antes_{d-1} ≪ 1) AND (nuevo_{d-1} ≪ 1) AND antes_{d-1}</code>. Los estados iniciales son <code>R_d = 1…1 ≪ d</code> (los d primeros bits en 0).</p>
-<p class="simple"><b>En palabras simples:</b> <code>≪ 1</code> mueve las lamparitas una casilla hacia adelante, y <code>OR con la máscara</code> apaga las que no coinciden con la letra leída. Sin errores basta con eso. Con errores, cada casilla se enciende si <b>al menos una</b> de cuatro cosas es posible: que la letra coincida, o que se explique con una sustitución, una eliminación o una inserción (eso es el <code>AND</code>: con un solo 0 entre las filas, la casilla queda encendida). Al empezar, las primeras k casillas ya están encendidas, como si se pudiera saltar esas letras del patrón.</p>
-<p><b>Límite de tamaño:</b> la versión clásica guarda cada nivel en una sola palabra de máquina (32 o 64 bits), por lo que el patrón no puede tener más letras que bits. Este simulador usa números enteros de longitud arbitraria (<code>BigInt</code>) y limita el patrón a 24 letras solo para que los bits quepan en pantalla.</p>
-<p class="simple"><b>En palabras simples:</b> el computador guarda esas lamparitas en una «cajita» de 32 o 64 casillas, así que el método clásico solo sirve para patrones de hasta 32 o 64 letras. Aquí usamos un truco para no tener ese tope, pero ponemos 24 letras como máximo para que todo se vea bien en la pantalla.</p>
-<p id="test" class="sub"></p>
-</section>
-
-<section class="card">
-<h2>¿Qué necesita un autocorrector?</h2>
-<p><b>Shift-Or no conoce palabras, no tiene diccionario y no corrige nada por sí solo.</b> Solo responde: «¿este fragmento se parece a este patrón con a lo sumo k ediciones?». En el ejemplo, nunca «supo» que GATO es una palabra: nosotros le dimos GATO como patrón. Un autocorrector completo necesita además:</p>
-<div class="grid">
-<div><b>1 · Un diccionario</b><br>Una lista de palabras válidas para saber qué es correcto.</div>
-<div><b>2 · Candidatos</b><br>Comparar lo escrito con las palabras del diccionario (aquí puede ayudar una búsqueda aproximada como esta).</div>
-<div><b>3 · Un criterio de elección</b><br>Elegir entre varios candidatos según la frecuencia de uso y el contexto de la frase.</div>
-<div><b>4 · Reglas de lengua</b><br>Acentos, mayúsculas, nombres propios y palabras nuevas que no deben «corregirse».</div>
 </div>
-</section>
 </main>
-<footer class="sub">
-</footer>
+
+<!-- 4. INFORMACIÓN SECUNDARIA (al final y plegada) -->
+<details class="card more">
+<summary data-i18n="sum1"></summary>
+<div data-i18n="det1"></div>
+</details>
+
+<details class="card more">
+<summary data-i18n="sum2"></summary>
+<div data-i18n="det2"></div>
+</details>
+
 </div>
+
+<!-- 5. PIE DE PÁGINA (datos académicos). Reemplaza los campos marcados con [COMPLETAR] -->
+<footer class="site-footer">
+<div class="foot-in">
+<h2 data-i18n="foot_h"></h2>
+<dl class="meta">
+<div><dt data-i18n="f_author"></dt><dd data-i18n="v_author"></dd></div>
+<div><dt data-i18n="f_mail"></dt><dd data-i18n="todo_mail"></dd></div>
+<div><dt data-i18n="f_date"></dt><dd data-i18n="v_date"></dd></div>
+<div><dt data-i18n="f_course"></dt><dd data-i18n="todo_course"></dd></div>
+<div><dt data-i18n="f_degree"></dt><dd data-i18n="todo_degree"></dd></div>
+<div><dt data-i18n="f_uni"></dt><dd>Universidad Francisco de Paula Santander (UFPS)</dd></div>
+<div><dt data-i18n="f_loc"></dt><dd>Cúcuta, Norte de Santander, Colombia</dd></div>
+<div><dt data-i18n="f_prof"></dt><dd data-i18n="todo_prof"></dd></div>
+<div class="wide"><dt data-i18n="f_repo"></dt><dd><a href="#" id="repo" data-i18n="todo_repo"></a></dd></div>
+</dl>
+</div>
+</footer>
+
+<script src="js/i18n.js"></script>
 <script src="js/algorithm.js"></script>
 <script src="js/verify.js"></script>
 <script src="js/stages.js"></script>
 <script src="js/ui.js"></script>
 </body>
 </html>
-
